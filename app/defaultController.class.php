@@ -1,9 +1,11 @@
 <?php
 
-class DefaultController {
+class DefaultController extends Controller{
 
     public function executeIndex() {
-        echo "hello world!";
+        $str = $this->view->renderView('helloWorld', array("text" => "hello world", "ar" => array("a",'b','c')));
+        return new Response($str);
+
     }
 
     public function executeShow() {

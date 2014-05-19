@@ -1,6 +1,9 @@
 <?php
 
 require_once __DIR__ . '/autoloader.php';
+require_once __DIR__ . '/view.php';
+require_once __DIR__ . '/controller.php';
+require_once __DIR__ . '/response.php';
 
 class Bootstrap {
 
@@ -34,10 +37,12 @@ class Bootstrap {
 
         $moduleName = ucfirst($moduleName)."Controller";
         if(class_exists($moduleName)) {
-            $module = new $moduleName;
+            $view = new View;
+            $module = new $moduleName($view);
             $actionName = "execute".ucfirst($actionName);
             if(method_exists($module, $actionName)) {
-                $module->$actionName($params);
+                $response = $module->$actionName($params);
+                echo $response->getOutput();
             } else {
                 throw new Exception("invalid method");
             }
